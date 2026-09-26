@@ -30,6 +30,9 @@ func Parse(pageUrl string, r io.Reader) (title string, links []string, err error
 				}
 			}
 		}
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
 	}
 	f(doc)
 	return title, links, nil

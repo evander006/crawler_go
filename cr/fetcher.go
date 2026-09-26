@@ -38,21 +38,21 @@ func NewFetcher(requestTimeOut time.Duration, logger *log.Logger) *Fetcher {
 func (f *Fetcher) Fetch(ctx context.Context, pageUrl string) FetchResult {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, pageUrl, nil)
 	if err != nil {
-		f.log.Printf("Error creating request url=%d | error:= %s", pageUrl, err)
+		f.log.Printf("Error creating request url=%s | error:= %s", pageUrl, err)
 		return FetchResult{}
 	}
 	resp, err := f.client.Do(req)
 	if err != nil {
-		f.log.Printf("Error fetching url=%d | error:%s", pageUrl, err)
+		f.log.Printf("Error fetching url=%s | error:%s", pageUrl, err)
 		return FetchResult{}
 	}
 	defer resp.Body.Close()
-	f.log.Printf("Fetched url=%d | statusCode=%d", pageUrl, resp.StatusCode)
+	f.log.Printf("Fetched url=%s | statusCode=%d", pageUrl, resp.StatusCode)
 	if resp.StatusCode != http.StatusOK {
 		return FetchResult{}
 	}
 	if !isHtml(resp.Header.Get("Content-Type")) {
-		f.log.Printf("Skip url=%d | error:%s", pageUrl, resp.Header.Get("Content-Type"))
+		f.log.Printf("Skip url=%s | error:%s", pageUrl, resp.Header.Get("Content-Type"))
 		return FetchResult{}
 	}
 	title, links, err := Parse(pageUrl, resp.Body)
