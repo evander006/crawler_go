@@ -1,4 +1,3 @@
-// cr/crawler.go
 package cr
 
 import (
